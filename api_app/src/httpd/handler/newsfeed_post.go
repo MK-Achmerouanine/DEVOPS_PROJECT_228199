@@ -4,6 +4,7 @@ import (
 	"api_app/platform/newsfeed"
 	"encoding/json"
 	"net/http"
+	"log"
 )
 
 func NewsfeedPost(feed newsfeed.Adder) http.HandlerFunc {
@@ -17,5 +18,6 @@ func NewsfeedPost(feed newsfeed.Adder) http.HandlerFunc {
 		})
 
 		w.Write([]byte("Good job! you added " + request["title"]))
+		log.Println("Newsfeed "+request["title"]+" added successfully")
 	}
 }

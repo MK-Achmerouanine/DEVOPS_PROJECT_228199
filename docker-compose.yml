@@ -1,0 +1,17 @@
+version: '3.4'
+services:
+  api_app: #docker run -it -v ${PWD}:/go/src/work -v ${PWD}/api_app/configs/:/configs -v ${PWD}/api_app/secrets/:/secrets  -p 5001:5000 -p 2345:2345 --security-opt "seccomp:unconfined" aimvector/api_app:1.0.0
+    container_name: api_app
+    image: aimvector/golang:1.0.0
+    build:
+      context: ./api_app
+      target: prod
+    volumes:
+      - ./api_app/configs:/configs/
+      - ./api_app/secrets:/secrets/
+      - ./api_app/src/:/go/src/work/
+    ports:
+      - 5001:5000
+      - 2345:2345
+    security_opt:
+      - 'seccomp:unconfined'
