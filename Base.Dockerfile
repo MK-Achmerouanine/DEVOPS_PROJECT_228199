@@ -1,4 +1,5 @@
-FROM golang:alpine3.12 as debug
+ARG GOLANG_TAG
+FROM golang:${GOLANG_TAG} as debug
 
 
 ENV GO111MODULE=on
@@ -16,17 +17,19 @@ ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
 
 
 
-WORKDIR /go/src/work
-COPY ./src /go/src/work/
+ARG APP_NAME
+WORKDIR /go/src/${APP_NAME}
+
+
+COPY ./app .
+RUN ls
 
 ENV GOPROXY https://proxy.golang.org
 RUN go mod download
 
 
+
+
 RUN go build -o app
 
-###########START NEW IMAGE###################
 
-FROM alpine:3.9 as prod
-COPY --from=debug /go/src/work/app /
-CMD ./app

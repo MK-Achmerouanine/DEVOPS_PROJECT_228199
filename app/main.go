@@ -13,19 +13,7 @@ import (
 )
 
 func main() {
-	addrs, err := net.InterfaceAddrs()
-	if err != nil {
-		os.Stderr.WriteString("Oops: " + err.Error() + "\n")
-		os.Exit(1)
-	}
-
-	for _, a := range addrs {
-		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-			if ipnet.IP.To4() != nil {
-				os.Stdout.WriteString(ipnet.IP.String() + "\n")
-			}
-		}
-	}
+	
 
 	port := ":5000"
 	feed := newsfeed.New()
@@ -39,7 +27,22 @@ func main() {
 		w.Write([]byte("Not found"))
 		log.Println("404 error: Not found ", r.URL.Path[1:])
 	})
+	addrs, err := net.InterfaceAddrs()
+	if err != nil {
+		os.Stderr.WriteString("Oops: " + err.Error() + "\n")
+		os.Exit(1)
+	}
 
-	log.Println("Serving on " + port)
+	for _, a := range addrs {
+		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
+			if ipnet.IP.To4() != nil {
+				os.Stdout.WriteString(ipnet.IP.String() + "\n")
+				log.Println("Serving on " +ipnet.IP.String()+ port)
+			}
+		}
+	}
+
+	log.Println("GET : /newsfeed  | Get newsfeeds")
+	log.Println("POST: /newsfeed  | Add newsfeed {title,post}")
 	http.ListenAndServe(port, r)
 }

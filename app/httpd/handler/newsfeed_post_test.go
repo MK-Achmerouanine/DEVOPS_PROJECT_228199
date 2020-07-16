@@ -28,7 +28,7 @@ func TestNewsfeedPost(t *testing.T) {
 
 	result := w.GetBodyString()
 
-	if result != "Good job!" {
+	if result != "Good job! you added hello" {
 		t.Errorf("Handler did not complete")
 	}
 
