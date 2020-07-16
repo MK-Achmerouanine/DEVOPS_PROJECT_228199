@@ -1,9 +1,12 @@
-
 pipeline {
-  agent { label 'master' }
+  agent {
+    node {
+      label 'master'
+    }
+
+  }
   stages {
     stage('build base image') {
-      
       steps {
         sh 'make build-base'
       }
@@ -23,6 +26,7 @@ pipeline {
         sh 'make build'
       }
     }
+
     stage('publish image to dockerhub') {
       steps {
         sh 'make publish'
