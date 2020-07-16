@@ -27,4 +27,4 @@ ansible-playbook clair/playbook.yml
 
 ## Dockerhub
 
-[Registry_push][https://hub.docker.com/repository/docker/mkachmerouanine/api_app]
+[Registry publish docker image](https://hub.docker.com/repository/docker/mkachmerouanine/api_app)
